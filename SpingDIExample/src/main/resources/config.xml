@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="bookWithOneArgument" class="home.springdiexample.entities.Textbook">
+		<constructor-arg value="1900"/>
+	</bean>
+
+	<!-- bean with same argument of same type -->
+	<bean id="bookWithTwoArguments" class="home.springdiexample.entities.Textbook">
+		<constructor-arg value="59" />
+		<constructor-arg value="83" />
+	</bean>
+	
+	<!-- constructor with multiple arguments but different data type -->
+	<!-- <bean id="bookWithTwoArgumentsDifferentType" class="home.springdiexample.entities.Textbook">
+		<constructor-arg value="59" type="int"/>
+		<constructor-arg value="83" type="java.lang.String"/>
+	</bean> -->
+	
+	<!-- constructor with multiple arguments but different data type -->
+	<!-- <bean id="bookWithThreeArgumentsDifferentType" class="home.springdiexample.entities.Textbook">
+		<constructor-arg value="59" />
+		<constructor-arg value="83" />
+		<constructor-arg value="100" />
+	</bean> -->
+	
+	
+	<bean id="circularDependencyA" class="home.springdiexample.entities.CircularDependencyA">
+<!-- 		<constructor-arg ref="circularDependencyB"/> -->
+<!-- 		<property name="circularDependencyB" ref="circularDependencyB"/> -->
+	</bean>
+	
+	<bean id="circularDependencyB" class="home.springdiexample.entities.CircularDependencyB" >
+<!-- 		<constructor-arg ref="circularDependencyA"/> -->
+<!-- 		<property name="circularDependencyA" ref="circularDependencyA"/> -->
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="application-messages"></property>
+	</bean>
+	
+	<bean id="beanA" class="home.springdiexample.entities.A" autowire="constructor" />
+	<bean id="b1" class="home.springdiexample.entities.B">
+		<property name="name" value="b1"></property>
+	</bean>
+	<bean id="b" class="home.springdiexample.entities.B">
+		<property name="name" value="b"></property>
+	</bean>
+	
+	
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+	<bean id="employeeService" class="home.springdiexample.entities.EmployeeService"/>
+	
+	<bean id="employeeDao2" class="home.springdiexample.entities.EmployeeDao">
+		<property name="name" value="employeeDao2"/>
+	</bean>
+	
+	<bean id="employeeDao1" class="home.springdiexample.entities.EmployeeDao">
+		<property name="name" value="employeeDao1"/>
+	</bean> -->
+	
+<!-- 	<bean id="beanC" class="home.springdiexample.entities.C"/> -->
+
+	<bean id="employeeWithEmployeeNumber" 
+			class="home.springdiexample.entities.Employee" 
+			factory-method="getEmployeeWithEmployeeNumber" />
+	
+	<bean id="fileWriterServiceLocator" class="home.springdiexample.entities.FileWriterServiceLocator"/>
+	
+	<bean id="pdfFileServiceLocator" factory-bean="fileWriterServiceLocator"
+									 factory-method="getPdfFileWriterService"></bean>
+									 
+	<bean class="home.springdiexample.eventListener.ContextRefreshEventListener"/>									 
+</beans>
